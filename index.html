@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rejestrator drgan</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel">
+        <header class="header">
+          <div>
+            <h1>Rejestrator drgan</h1>
+            <p>Test dostepu do akcelerometru w Chrome</p>
+          </div>
+          <span id="status" class="status idle">Gotowy</span>
+        </header>
+
+        <div class="controls" aria-label="Sterowanie pomiarem">
+          <button id="startBtn" type="button">Start</button>
+          <button id="stopBtn" type="button" disabled>Stop</button>
+          <button id="saveBtn" type="button" disabled>Zapisz CSV</button>
+          <button id="clearBtn" type="button" disabled>Wyczysc</button>
+        </div>
+
+        <div id="warning" class="warning" hidden></div>
+
+        <section class="readout" aria-label="Aktualne dane">
+          <article>
+            <span>Probki</span>
+            <strong id="sampleCount">0</strong>
+          </article>
+          <article>
+            <span>Czas</span>
+            <strong id="elapsed">0.0 s</strong>
+          </article>
+          <article>
+            <span>Drgania</span>
+            <strong id="magnitude">0.000</strong>
+          </article>
+          <article>
+            <span>Max</span>
+            <strong id="maxMagnitude">0.000</strong>
+          </article>
+        </section>
+
+        <canvas id="chart" width="900" height="280" aria-label="Wykres drgan w czasie"></canvas>
+
+        <section class="values" aria-label="Odczyt osi">
+          <div><span>X</span><strong id="xValue">0.000</strong></div>
+          <div><span>Y</span><strong id="yValue">0.000</strong></div>
+          <div><span>Z</span><strong id="zValue">0.000</strong></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
