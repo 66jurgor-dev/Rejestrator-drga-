@@ -36,9 +36,12 @@ Plik zawiera:
 
 ## Elementy systemu
 
-- Rejestrator przeglądarkowy: pliki w katalogu głównym.
-- [Dekoder BIN + GPX](decoder/README.md).
+- **Aktualny rejestrator Android: v38 ML** — według informacji użytkownika;
+  źródła tej wersji nie zostały jeszcze dostarczone.
+- [Archiwalny rejestrator Android v0.29 Raw-BIN](android-v0.29-archive/ARCHIVE_INFO.md)
+  — źródła, projekt Gradle, APK oraz dołączone historyczne narzędzia.
+- [Dekoder SHAKE v0.29 — BIN + GPX](decoder/README.md).
 - [Przeglądarka GPXNAV](viewer/README.md), wraz z przekazanym EXE Windows.
+- Starszy rejestrator przeglądarkowy: pliki w katalogu głównym.
 
-Źródła rejestratora Android nie zostały dostarczone. Rejestrator w katalogu
-głównym jest aplikacją przeglądarkową.
+Nie potwierdzono zgodności dekodera z formatem zapisu aktualnego rejestratora v38 ML.
