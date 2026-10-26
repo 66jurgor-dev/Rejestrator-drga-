@@ -28,3 +28,8 @@ Plik zawiera:
 - obliczona wielkosc drgan,
 - interwal czujnika,
 - zrodlo danych.
+
+## Dekoder BIN + GPX
+
+Źródła dekodera SHAKE v0.29, testy i opis formatu BIN znajdują się w
+[katalogu decoder](decoder/README.md).
