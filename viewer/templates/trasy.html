@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPX trasy i telemetria</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='trasy.css', v='20-shake-telemetry') }}">
+</head>
+<body>
+  <header>
+    <p class="eyebrow">LOKALNA APLIKACJA · GPXTRASY_NAW</p>
+    <h1>Trasy i telemetria</h1>
+    <p>Kliknij trasę na mapie, porównaj profil, puls, drgania i prędkość.</p>
+  </header>
+
+  <main>
+    <section class="summary-panel" aria-label="Statystyki zbiorcze">
+      <h2>Statystyki wszystkich tras</h2>
+      <dl>
+        <div><dt>Liczba tras</dt><dd id="sum-routes">0</dd></div>
+        <div><dt>Suma km</dt><dd id="sum-distance">0,00 km</dd></div>
+        <div><dt>Średnia odległość</dt><dd id="avg-distance">0,00 km</dd></div>
+        <div><dt>Suma wzniosów</dt><dd id="sum-ascent">0 m</dd></div>
+        <div><dt>Suma czasu jazdy</dt><dd id="sum-duration">brak danych</dd></div>
+        <div><dt>Średni czas</dt><dd id="avg-duration">brak danych</dd></div>
+        <div><dt>Średnia prędkość</dt><dd id="sum-speed">brak danych</dd></div>
+      </dl>
+    </section>
+
+    <section class="merge-panel" aria-label="Łączenie GPX z CSV drgań">
+      <div>
+        <h2>Starszy import GPX + CSV</h2>
+        <p>Funkcja zgodności ze starszymi plikami CSV. Nowe pliki GPXNAV tworzy dekoder VIBRAW.</p>
+      </div>
+      <label>
+        <span>Plik GPX</span>
+        <input id="merge-gpx" type="file" accept=".gpx,application/gpx+xml">
+      </label>
+      <label>
+        <span>Plik CSV drgań</span>
+        <input id="merge-csv" type="file" accept=".csv,text/csv">
+      </label>
+      <button id="merge-submit" type="button">Połącz GPX + CSV</button>
+      <div id="merge-result" class="merge-result" hidden></div>
+    </section>
+
+    <div id="message" class="message">Wczytuję pliki .gpxnav…</div>
+
+    <section class="layout">
+      <div class="map-column">
+        <section class="telemetry-panel" aria-label="Wykresy telemetryczne trasy">
+          <div class="telemetry-stack">
+            <section class="metric-chart">
+              <div class="metric-header">
+                <strong>Średni puls na odcinku</strong>
+                <div class="metric-values"><span id="heart-rate-calories">Mężczyzna 83 kg: — kcal</span><span id="heart-rate-readout">— bpm</span></div>
+              </div>
+              <svg id="heart-rate-chart" viewBox="0 0 900 130" preserveAspectRatio="none" aria-label="Wykres pulsu"></svg>
+            </section>
+            <section class="metric-chart">
+              <div class="metric-header"><strong>Średnie drgania na odcinku — korekta procentowa do 5 km/h</strong><span id="shake-readout">— / 100</span></div>
+              <svg id="shake-chart" viewBox="0 0 900 130" preserveAspectRatio="none" aria-label="Wykres drgań"></svg>
+            </section>
+            <section class="metric-chart">
+              <div class="metric-header"><strong>Średnia prędkość na odcinku</strong><span id="speed-readout">— km/h</span></div>
+              <svg id="speed-chart" viewBox="0 0 900 130" preserveAspectRatio="none" aria-label="Wykres prędkości"></svg>
+            </section>
+          </div>
+        </section>
+        <section class="profile-panel" aria-label="Profil pionowy trasy">
+          <div class="profile-header">
+            <div>
+              <strong>Profil pionowy trasy</strong>
+              <span id="profile-title">Kliknij trasę na mapie, aby wyświetlić profil.</span>
+            </div>
+            <div class="profile-actions">
+              <button id="reload" type="button">Odśwież trasy</button>
+              <button id="save-gpx" type="button" disabled>Zapisz GPX</button>
+            </div>
+          </div>
+          <div class="profile-wrap">
+            <svg id="elevation-profile" viewBox="0 0 900 190" preserveAspectRatio="none" aria-label="Profil wysokości"></svg>
+            <div id="profile-empty">Brak wybranej trasy</div>
+            <div id="profile-readout">Kąt: —</div>
+          </div>
+        </section>
+        <div class="map-card">
+          <div id="map"></div>
+          <div id="empty-map">Tu pojawią się trasy z katalogu GPXNAV</div>
+        </div>
+      </div>
+      <aside>
+        <h2>Dane wybranej trasy</h2>
+        <div id="route-details" class="route-details empty">Kliknij trasę na mapie.</div>
+        <section class="route-list-panel" aria-label="Lista tras">
+          <h3>Wybierz trasę</h3>
+          <p>Niebieskie nazwy oznaczają pełne dane: puls, prędkość koła i drgania.</p>
+          <div id="route-list" class="route-list"></div>
+        </section>
+        <section class="surface-legend" aria-label="Legenda wykresów">
+          <h3>Oznaczenia wykresów</h3>
+          <ul>
+            <li><span class="swatch line" style="--swatch-color:#2468a2"></span>wysokość</li>
+            <li><span class="swatch line dashed" style="--swatch-color:#d52424"></span>prowadzenie</li>
+            <li><span class="swatch line" style="--swatch-color:#b4235a"></span>puls</li>
+            <li><span class="swatch line" style="--swatch-color:#d96a1b"></span>drgania 0–100</li>
+            <li><span class="swatch line" style="--swatch-color:#2468a2"></span>prędkość koła</li>
+          </ul>
+        </section>
+      </aside>
+    </section>
+
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ url_for('static', filename='shake_processing.js', v='21-shake-smoothing') }}"></script>
+  <script src="{{ url_for('static', filename='segment_processing.js', v='1-grade-segments') }}"></script>
+  <script src="{{ url_for('static', filename='trasy.js', v='24-grade-segments') }}"></script>
+</body>
+</html>

@@ -33,3 +33,12 @@ Plik zawiera:
 
 Źródła dekodera SHAKE v0.29, testy i opis formatu BIN znajdują się w
 [katalogu decoder](decoder/README.md).
+
+## Elementy systemu
+
+- Rejestrator przeglądarkowy: pliki w katalogu głównym.
+- [Dekoder BIN + GPX](decoder/README.md).
+- [Przeglądarka GPXNAV](viewer/README.md), wraz z przekazanym EXE Windows.
+
+Źródła rejestratora Android nie zostały dostarczone. Rejestrator w katalogu
+głównym jest aplikacją przeglądarkową.
