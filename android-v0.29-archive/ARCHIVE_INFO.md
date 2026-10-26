@@ -2,7 +2,7 @@
 
 Import z `rejestrator-drgan-android-v0.29-Raw-BIN.zip`.
 To wersja historyczna: użytkownik wskazał, że na smartfonie używa **v38 ML**.
-Źródła v38 ML nie zostały jeszcze dostarczone. Nie traktuj tego katalogu jako
+Źródła v0.38 ML-TEST zostały dodane w `../android/`. Nie traktuj tego katalogu jako
 aktualnej wersji aplikacji z telefonu.
 
 Zachowano źródła, zasoby, konfigurację Gradle, oryginalną dokumentację,

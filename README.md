@@ -36,8 +36,8 @@ Plik zawiera:
 
 ## Elementy systemu
 
-- **Aktualny rejestrator Android: v38 ML** — według informacji użytkownika;
-  źródła tej wersji nie zostały jeszcze dostarczone.
+- [Rejestrator Android v0.38 ML-TEST](android/README.md) — źródła projektu i APK;
+  wersja wskazana przez użytkownika jako aktualna.
 - [Archiwalny rejestrator Android v0.29 Raw-BIN](android-v0.29-archive/ARCHIVE_INFO.md)
   — źródła, projekt Gradle, APK oraz dołączone historyczne narzędzia.
 - [Dekoder SHAKE v0.29 — BIN + GPX](decoder/README.md).
